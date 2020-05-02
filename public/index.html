@@ -3,55 +3,14 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <title>React App</title>
-  <style>
-    #map {
-      height: 700px;
-      width: 1000px;
-    }
-
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
 </head>
 
 <body>
-  <script>
-    let map;
-    function initMap() {
-      let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: { lat: -25.363882, lng: 131.044922 }
-      });
-
-      map.addListener('click', function (e) {
-        placeMarkerAndPanTo(e.latLng, map);
-      });
-    }
-
-    function placeMarkerAndPanTo(latLng, map) {
-      let marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-      });
-      map.panTo(latLng);
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrM-9kfb01hw-cavjmBiAzo4tDZPbUD6M&callback=initMap"
-    async defer>
-    </script>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root">
-    <div id="map"></div>
   </div>
 </body>
 
