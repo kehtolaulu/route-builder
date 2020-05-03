@@ -7,7 +7,6 @@ const mapStyles = {
 };
 
 const containerStyle = {
-  position: 'absolute',
   width: '700px',
   height: '700px'
 }
