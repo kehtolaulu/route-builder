@@ -15,16 +15,17 @@ export class MapContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: null
+            activeMarker: null,
+            id: null
         };
     }
 
-    showName = (index) => {
-        this.setState({ open: index });
+    onMarkerClick = (props, marker, e) => {
+        this.setState({ activeMarker: marker });
     }
 
     hideName = () => {
-
+        this.setState({ activeMarker: null });
     }
 
     render() {
@@ -36,22 +37,27 @@ export class MapContainer extends React.Component {
                 containerStyle={containerStyle}
                 initialCenter={this.props.center}
                 onCenterChanged={this.props.onCenterChanged}
+                clickableIcons={true}
             >
                 {(this.props.markers || []).map(marker => {
                     return (
                         <Marker
+                            id={marker.id}
                             key={marker.id}
                             name={marker.name}
                             onDragend={(t, map, coord) => this.props.onMarkerDragEnd(coord, marker.id)}
                             draggable={true}
                             position={marker.position}
-                            onClick={() => this.showName(marker.id)}>
-                            <InfoWindow visible={this.state.open === marker.id} onCloseClick={() => this.hideName()}>
-                                <span className="infoWindow">Something</span>
-                            </InfoWindow>}
+                            onClick={this.onMarkerClick}
+                        >
                         </Marker>
                     );
                 })}
+                <InfoWindow visible={this.state.activeMarker !== null}
+                    onClose={this.hideName}
+                    marker={this.state.activeMarker}>
+                    <div className="infoWindow">{this.state.activeMarker?.name}}</div>
+                </InfoWindow>
             </Map>
         );
     }
