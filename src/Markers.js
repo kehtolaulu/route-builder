@@ -41,13 +41,25 @@ class Markers extends React.Component {
         this.setState({ center: { lat, lng } });
     }
 
+    onMarkerDragEnd = (coord, index) => {
+        const { latLng } = coord;
+        const lat = latLng.lat();
+        const lng = latLng.lng();
+        this.setState(_state => {
+            const markers = [...this.state.markers];
+            markers[index] = { ...markers[index], position: { lat, lng } };
+            return { markers };
+        });
+    }
+
     render() {
         return (
-            <div class="content">
+            <div className="content">
                 <MapContainer
                     markers={this.state.markers}
                     onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
                     center={this.state.initialCenter}
+                    onMarkerDragEnd={this.onMarkerDragEnd}
                 />
                 <div className="markers">
                     <form>

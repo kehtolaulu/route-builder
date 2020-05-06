@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 const mapStyles = {
     width: '700px',
@@ -12,6 +12,21 @@ const containerStyle = {
 }
 
 export class MapContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: null
+        };
+    }
+
+    showName = (index) => {
+        this.setState({ open: index });
+    }
+
+    hideName = () => {
+
+    }
+
     render() {
         return (
             <Map
@@ -22,10 +37,21 @@ export class MapContainer extends React.Component {
                 initialCenter={this.props.center}
                 onCenterChanged={this.props.onCenterChanged}
             >
-                {(this.props.markers || []).map(marker =>
-                    <Marker
-                        position={marker.position}
-                    />)}
+                {(this.props.markers || []).map(marker => {
+                    return (
+                        <Marker
+                            key={marker.id}
+                            name={marker.name}
+                            onDragend={(t, map, coord) => this.props.onMarkerDragEnd(coord, marker.id)}
+                            draggable={true}
+                            position={marker.position}
+                            onClick={() => this.showName(marker.id)}>
+                            <InfoWindow visible={this.state.open === marker.id} onCloseClick={() => this.hideName()}>
+                                <span className="infoWindow">Something</span>
+                            </InfoWindow>}
+                        </Marker>
+                    );
+                })}
             </Map>
         );
     }
