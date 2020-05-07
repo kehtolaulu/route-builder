@@ -3,12 +3,13 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow, Polyline } from 'google-maps
 
 const mapStyles = {
     width: '700px',
-    height: '700px'
+    height: '700px',
 };
 
 const containerStyle = {
     width: '700px',
-    height: '700px'
+    height: '700px',
+    position: 'static'
 }
 
 export class MapContainer extends React.Component {
@@ -42,6 +43,7 @@ export class MapContainer extends React.Component {
                 {(this.props.markers || []).map(marker => {
                     return (
                         <Marker
+                            label={marker.name}
                             id={marker.id}
                             key={marker.id}
                             name={marker.name}
