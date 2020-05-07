@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow, Polyline } from 'google-maps-react';
 
 const mapStyles = {
     width: '700px',
@@ -58,6 +58,22 @@ export class MapContainer extends React.Component {
                     marker={this.state.activeMarker}>
                     <div className="infoWindow">{this.state.activeMarker?.name}}</div>
                 </InfoWindow>
+                <Polyline
+                    path={this.props.lineCoordinates}
+                    geodesic={true}
+                    options={{
+                        strokeColor: "#ff2527",
+                        strokeOpacity: 0.75,
+                        strokeWeight: 2,
+                        icons: [
+                            {
+                                // icon: lineSymbol,
+                                offset: "0",
+                                repeat: "20px"
+                            }
+                        ]
+                    }}
+                />
             </Map>
         );
     }

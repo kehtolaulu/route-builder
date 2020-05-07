@@ -1,6 +1,6 @@
 import React from 'react';
 import MarkerItem from './MarkerItem';
-import MapContainer from "./MapContainer";
+import MapContainer from './MapContainer';
 
 class Markers extends React.Component {
     constructor(props) {
@@ -82,6 +82,7 @@ class Markers extends React.Component {
                     onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
                     center={this.state.initialCenter}
                     onMarkerDragEnd={this.onMarkerDragEnd}
+                    lineCoordinates={this.state.markers.map(marker => marker.position)}
                 />
                 <div className="markers">
                     <form>
