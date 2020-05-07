@@ -1,13 +1,15 @@
 import React from 'react';
 
-class MarkerItem extends React.Component {
-    render() {
-        return (
-            <li className="marker-item">
-                {this.props.name}
-            </li>
-        );
-    }
-}
+const MarkerItem = ({ name, onDragOver, onDragEnd, onDragStart }) => (
+    <li className="marker-item" onDragOver={onDragOver}>
+        <div
+            draggable
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+        >
+            {name}
+        </div>
+    </li>
+);
 
 export default MarkerItem;

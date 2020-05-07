@@ -15,7 +15,8 @@ class Markers extends React.Component {
             initialCenter: {
                 lat: 37.7749289,
                 lng: -122.4050955710823
-            }
+            },
+            draggedItem: {}
         };
     }
 
@@ -52,6 +53,27 @@ class Markers extends React.Component {
         });
     }
 
+    onDragStart = (e, index) => {
+        this.setState({ draggedItem: this.state.markers[index] });
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/html", e.target.parentNode);
+        e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
+    };
+
+    onDragOver = (index) => {
+        let draggedOverItem = this.state.markers[index];
+        if (this.state.draggedItem === draggedOverItem) {
+            return;
+        }
+        let items = this.state.markers.filter(marker => marker !== this.state.draggedItem);
+        items.splice(index, 0, this.state.draggedItem);
+        this.setState({ markers: items });
+    };
+
+    onDragEnd = () => {
+        this.setState({ draggedItem: {} });
+    };
+
     render() {
         return (
             <div className="content">
@@ -63,11 +85,24 @@ class Markers extends React.Component {
                 />
                 <div className="markers">
                     <form>
-                        <input type="text" placeholder="New marker" onChange={this.handleChange} value={this.state.newMarker} />
+                        <input
+                            type="text"
+                            placeholder="New marker"
+                            onChange={this.handleChange}
+                            value={this.state.newMarker}
+                        />
                         <button onClick={this.createMarker}>Submit</button>
                     </form>
                     <ul>
-                        {this.state.markers.map(marker => (<MarkerItem key={marker.id} name={marker.name} />))}
+                        {this.state.markers.map((marker, index) => {
+                            return <MarkerItem
+                                key={marker.id}
+                                name={marker.name}
+                                onDragOver={() => this.onDragOver(index)}
+                                onDragStart={e => this.onDragStart(e, index)}
+                                onDragEnd={this.onDragEnd}
+                            />
+                        })}
                     </ul>
                 </div>
             </div>
