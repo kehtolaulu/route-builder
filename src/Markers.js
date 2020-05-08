@@ -1,6 +1,6 @@
 import React from 'react';
-import MarkerItem from './MarkerItem';
 import MapContainer from './MapContainer';
+import MarkerItemsList from './MarkerItemsList';
 
 class Markers extends React.Component {
     constructor(props) {
@@ -105,20 +105,15 @@ class Markers extends React.Component {
                         />
                         <input type="submit" className="hide" />
                     </form>
-                    <ul className="markers-list">
-                        {this.state.markers.map((marker, index) => {
-                            return <MarkerItem
-                                key={marker.id}
-                                name={marker.name}
-                                onDragOver={() => this.onDragOver(index)}
-                                onDragStart={e => this.onDragStart(e, index)}
-                                onDragEnd={this.onDragEnd}
-                                onMarkerDelete={() => this.deleteMarker(index)}
-                            />
-                        })}
-                    </ul>
+                    <MarkerItemsList
+                        markers={this.state.markers}
+                        onDragOver={this.onDragOver}
+                        onDragStart={this.onDragStart}
+                        onDragEnd={this.onDragEnd}
+                        onMarkerDelete={this.deleteMarker}
+                    />
                 </div>
-            </div>
+            </div >
         );
     }
 }
