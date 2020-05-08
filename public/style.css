@@ -1,8 +1,41 @@
+body {
+    font-size: 1em;
+}
+
 .content {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(10, 10%);
+    height: 100%
 }
 
 .markers {
+    grid-column-start: 7;
+    grid-column-end: 10;
+    margin: 10% 10% 0 10%;
+}
+
+.marker-name {
+    word-wrap: break-word;
+}
+
+.map-container {
+    grid-column-start: 2;
+    grid-column-end: 6;
+}
+
+.hide {
+    display: none;
+}
+
+.input {
+    width: 100%;
+    padding: 1em;
+}
+
+.marker-item {
+    margin: 1em;
+}
+
+.delete {
     float: right;
 }

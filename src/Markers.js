@@ -75,27 +75,37 @@ class Markers extends React.Component {
         this.setState({ draggedItem: {} });
     };
 
+    deleteMarker = (index) => {
+        let markers = this.state.markers;
+        markers.splice(index, 1);
+        this.setState({ markers });
+    };
+
     render() {
         return (
             <div className="content">
-                <MapContainer
-                    markers={this.state.markers}
-                    onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
-                    center={this.state.initialCenter}
-                    onMarkerDragEnd={this.onMarkerDragEnd}
-                    lineCoordinates={this.state.markers.map(marker => marker.position)}
-                />
+                <div className="map-container">
+                    <MapContainer
+                        markers={this.state.markers}
+                        onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
+                        center={this.state.initialCenter}
+                        onMarkerDragEnd={this.onMarkerDragEnd}
+                        lineCoordinates={this.state.markers.map(marker => marker.position)}
+                    />
+                </div>
                 <div className="markers">
-                    <form>
+                    <form onSubmit={this.createMarker}>
                         <input
+                            className="input"
                             type="text"
                             placeholder="New marker"
                             onChange={this.handleChange}
                             value={this.state.newMarker}
+                            maxLength={32}
                         />
-                        <button onClick={this.createMarker}>Submit</button>
+                        <input type="submit" className="hide" />
                     </form>
-                    <ul>
+                    <ul className="markers-list">
                         {this.state.markers.map((marker, index) => {
                             return <MarkerItem
                                 key={marker.id}
@@ -103,6 +113,7 @@ class Markers extends React.Component {
                                 onDragOver={() => this.onDragOver(index)}
                                 onDragStart={e => this.onDragStart(e, index)}
                                 onDragEnd={this.onDragEnd}
+                                onMarkerDelete={() => this.deleteMarker(index)}
                             />
                         })}
                     </ul>

@@ -2,14 +2,17 @@ import React from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow, Polyline } from 'google-maps-react';
 
 const mapStyles = {
-    width: '700px',
-    height: '700px',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0
 };
 
 const containerStyle = {
-    width: '700px',
-    height: '700px',
-    position: 'static'
+    width: '40%',
+    height: '98%',
+    position: 'absolute'
 }
 
 export class MapContainer extends React.Component {
@@ -69,7 +72,6 @@ export class MapContainer extends React.Component {
                         strokeWeight: 2,
                         icons: [
                             {
-                                // icon: lineSymbol,
                                 offset: "0",
                                 repeat: "20px"
                             }
