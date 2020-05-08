@@ -42,13 +42,14 @@ class Markers extends React.Component {
         this.setState({ center: { lat, lng } });
     }
 
-    onMarkerDragEnd = (coord, index) => {
-        const { latLng } = coord;
-        const lat = latLng.lat();
-        const lng = latLng.lng();
+    onMarkerDragEnd = (coord, id) => {
+        let { latLng } = coord;
+        let lat = latLng.lat();
+        let lng = latLng.lng();
         this.setState(_state => {
-            const markers = [...this.state.markers];
-            markers[index] = { ...markers[index], position: { lat, lng } };
+            let markers = this.state.markers;
+            let marker = markers.find(marker => marker.id === id);
+            marker.position = { lat, lng };
             return { markers };
         });
     }
