@@ -1,0 +1,6 @@
+export const ADD_MARKER = 'ADD_MARKER';
+export const DELETE_MARKER = 'DELETE_MARKER';
+export const CHANGE_CENTER = 'CHANGE_CENTER';
+export const CHANGE_POSITION = 'CHANGE_POSITION';
+export const CHANGE_ORDER = 'CHANGE_ORDER';
+export const SET_DRAGGED_ITEM = 'SET_DRAGGED_ITEM';

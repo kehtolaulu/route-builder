@@ -55,6 +55,7 @@ class Markers extends React.Component {
     }
 
     onDragStart = (e, index) => {
+        // set dragged item
         this.setState({ draggedItem: this.state.markers[index] });
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/html", e.target.parentNode);
@@ -66,12 +67,14 @@ class Markers extends React.Component {
         if (this.state.draggedItem === draggedOverItem) {
             return;
         }
+        //change order
         let items = this.state.markers.filter(marker => marker !== this.state.draggedItem);
         items.splice(index, 0, this.state.draggedItem);
         this.setState({ markers: items });
     };
 
     onDragEnd = () => {
+        // set dragged item
         this.setState({ draggedItem: {} });
     };
 
