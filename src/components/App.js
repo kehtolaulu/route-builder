@@ -4,7 +4,7 @@ import Markers from './Markers';
 class App extends React.Component {
     render() {
         return (
-            <Markers />
+            <Markers  />
         );
     }
 }

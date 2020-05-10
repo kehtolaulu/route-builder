@@ -1,88 +1,46 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {
+    deleteMarker,
+    changePosition,
+    setDraggedItem,
+    changeCenter,
+    addMarker
+} from '../actions';
 import MapContainer from './MapContainer';
 import MarkerItemsList from './MarkerItemsList';
+import MarkerForm from './MarkerForm';
 
 class Markers extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            markers: [],
-            newMarker: '',
-            center: {
-                lat: 37.7749289,
-                lng: -122.4050955710823
-            },
-            initialCenter: {
-                lat: 37.7749289,
-                lng: -122.4050955710823
-            },
-            draggedItem: {}
-        };
-    }
-
-    handleChange = (e) => {
-        this.setState({ newMarker: e.target.value });
-    }
-
-    createMarker = (e) => {
-        e.preventDefault();
-        let text = this.state.newMarker.trim();
-        if (!text) {
-            return;
-        }
-        let markers = this.state.markers;
-        markers.push({ id: Date.now(), name: text, position: this.state.center });
-        this.setState({ markers });
-        this.setState({ newMarker: '' })
-    }
-
-    onCenterChanged = (mapProps, map) => {
-        let lat = map.center.lat();
-        let lng = map.center.lng();
-        this.setState({ center: { lat, lng } });
+    onCenterChanged = (_mapProps, map) => {
+        this.props.changeCenter(map.center.lat(), map.center.lng());
     }
 
     onMarkerDragEnd = (coord, id) => {
         let { latLng } = coord;
         let lat = latLng.lat();
         let lng = latLng.lng();
-        // change position
-        this.setState(_state => {
-            let markers = this.state.markers;
-            let marker = markers.find(marker => marker.id === id);
-            marker.position = { lat, lng };
-            return { markers };
-        });
+        this.props.changePosition(id, { lat, lng });
     }
 
     onDragStart = (e, index) => {
-        // set dragged item
-        this.setState({ draggedItem: this.state.markers[index] });
+        this.props.setDraggedItem(index);
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/html", e.target.parentNode);
         e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
     };
 
     onDragOver = (index) => {
-        let draggedOverItem = this.state.markers[index];
-        if (this.state.draggedItem === draggedOverItem) {
-            return;
-        }
-        //change order
-        let items = this.state.markers.filter(marker => marker !== this.state.draggedItem);
-        items.splice(index, 0, this.state.draggedItem);
-        this.setState({ markers: items });
+        if (index === this.props.draggedItem()) return;
+        this.props.changeOrder(index, this.props.draggedItem());
     };
 
     onDragEnd = () => {
-        // set dragged item
-        this.setState({ draggedItem: {} });
+        this.props.setDraggedItem({});
     };
 
-    deleteMarker = (index) => {
-        let markers = this.state.markers;
-        markers.splice(index, 1);
-        this.setState({ markers });
+    deleteMarker = (id) => {
+        this.props.deleteMarker(id);
     };
 
     render() {
@@ -90,27 +48,17 @@ class Markers extends React.Component {
             <div className="content">
                 <div className="map-container">
                     <MapContainer
-                        markers={this.state.markers}
+                        markers={this.props.state.markers}
                         onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
-                        center={this.state.initialCenter}
+                        center={this.props.state.initialCenter}
                         onMarkerDragEnd={this.onMarkerDragEnd}
-                        lineCoordinates={this.state.markers.map(marker => marker.position)}
+                        lineCoordinates={this.props.state.markers.map(marker => marker.position)}
                     />
                 </div>
                 <div className="markers">
-                    <form onSubmit={this.createMarker}>
-                        <input
-                            className="input"
-                            type="text"
-                            placeholder="New marker"
-                            onChange={this.handleChange}
-                            value={this.state.newMarker}
-                            maxLength={32}
-                        />
-                        <input type="submit" className="hide" />
-                    </form>
+                    <MarkerForm />
                     <MarkerItemsList
-                        markers={this.state.markers}
+                        markers={this.props.state.markers}
                         onDragOver={this.onDragOver}
                         onDragStart={this.onDragStart}
                         onDragEnd={this.onDragEnd}
@@ -122,4 +70,22 @@ class Markers extends React.Component {
     }
 }
 
-export default Markers;
+const mapStateToProps = state => ({
+    state: state
+});
+
+const mapDispatchToProps = dispatch => ({
+    deleteMarker: (id) => dispatch(deleteMarker(id)),
+    changePosition: (index, position) => dispatch(changePosition(index, position)),
+    changeOrder: (before, marker) => {
+        deleteMarker(marker.id);
+        addMarker(before, marker);
+    },
+    setDraggedItem: (index) => dispatch(setDraggedItem(index)),
+    changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Markers);

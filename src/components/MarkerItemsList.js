@@ -10,7 +10,7 @@ const MarkerItemsList = ({ markers, onDragOver, onDragEnd, onDragStart, onMarker
                 onDragOver={() => onDragOver(index)}
                 onDragStart={e => onDragStart(e, index)}
                 onDragEnd={onDragEnd}
-                onMarkerDelete={onMarkerDelete}
+                onMarkerDelete={() => onMarkerDelete(marker.id)}
             />
         })}
     </ul>
