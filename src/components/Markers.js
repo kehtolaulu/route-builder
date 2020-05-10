@@ -46,6 +46,7 @@ class Markers extends React.Component {
         let { latLng } = coord;
         let lat = latLng.lat();
         let lng = latLng.lng();
+        // change position
         this.setState(_state => {
             let markers = this.state.markers;
             let marker = markers.find(marker => marker.id === id);

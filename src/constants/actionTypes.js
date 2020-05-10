@@ -1,3 +1,4 @@
+export const CREATE_MARKER = 'CREATE_MARKER';
 export const ADD_MARKER = 'ADD_MARKER';
 export const DELETE_MARKER = 'DELETE_MARKER';
 export const CHANGE_CENTER = 'CHANGE_CENTER';
