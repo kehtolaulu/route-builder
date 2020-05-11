@@ -1,6 +1,6 @@
 import {
     CREATE_MARKER,
-    ADD_MARKER,
+    CHANGE_ORDER,
     DELETE_MARKER,
     CHANGE_CENTER,
     CHANGE_POSITION,
@@ -40,7 +40,7 @@ const markers = (state = [], action) => {
                 ...state.slice(index + 1)
             ];
         }
-        case ADD_MARKER: { //after marker, marker
+        case CHANGE_ORDER: { //after marker, marker
             let after = state.find(marker => marker.id === action.index);
             let marker = state.find(marker => marker.id === action.marker);
             let afterIndex = state.indexOf(after);

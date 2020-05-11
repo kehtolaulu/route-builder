@@ -5,7 +5,7 @@ import {
     changePosition,
     setDraggedItem,
     changeCenter,
-    addMarker
+    changeOrder
 } from '../actions';
 import MapContainer from './MapContainer';
 import MarkerItemsList from './MarkerItemsList';
@@ -77,10 +77,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     deleteMarker: (id) => dispatch(deleteMarker(id)),
     changePosition: (id, position) => dispatch(changePosition(id, position)),
-    changeOrder: (index, marker) => {
-        // dispatch(deleteMarker(marker));
-        dispatch(addMarker(index, marker));
-    },
+    changeOrder: (index, marker) => dispatch(changeOrder(index, marker)),
     setDraggedItem: (index) => dispatch(setDraggedItem(index)),
     changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))
 });

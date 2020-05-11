@@ -1,6 +1,6 @@
 import {
     CREATE_MARKER,
-    ADD_MARKER,
+    CHANGE_ORDER,
     DELETE_MARKER,
     CHANGE_CENTER,
     CHANGE_POSITION,
@@ -17,8 +17,8 @@ export const deleteMarker = (index) => ({
     index
 });
 
-export const addMarker = (index, marker) => ({
-    type: ADD_MARKER,
+export const changeOrder = (index, marker) => ({
+    type: CHANGE_ORDER,
     index, marker
 });
 
