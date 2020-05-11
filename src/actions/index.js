@@ -22,9 +22,9 @@ export const addMarker = (index, marker) => ({
     index, marker
 });
 
-export const changePosition = (index, position) => ({
+export const changePosition = (id, position) => ({
     type: CHANGE_POSITION,
-    index, position
+    id, position
 });
 
 export const setDraggedItem = (draggedItem) => ({

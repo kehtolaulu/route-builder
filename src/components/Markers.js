@@ -23,16 +23,16 @@ class Markers extends React.Component {
         this.props.changePosition(id, { lat, lng });
     }
 
-    onDragStart = (e, index) => {
-        this.props.setDraggedItem(index);
+    onDragStart = (e, id) => {
+        this.props.setDraggedItem(id);
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/html", e.target.parentNode);
         e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
     };
 
-    onDragOver = (index) => {
-        if (index === this.props.draggedItem()) return;
-        this.props.changeOrder(index, this.props.draggedItem());
+    onDragOver = (id) => {
+        if (id === this.props.state.draggedItem) return;
+        this.props.changeOrder(id, this.props.state.draggedItem);
     };
 
     onDragEnd = () => {
@@ -76,10 +76,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     deleteMarker: (id) => dispatch(deleteMarker(id)),
-    changePosition: (index, position) => dispatch(changePosition(index, position)),
-    changeOrder: (before, marker) => {
-        deleteMarker(marker.id);
-        addMarker(before, marker);
+    changePosition: (id, position) => dispatch(changePosition(id, position)),
+    changeOrder: (index, marker) => {
+        // dispatch(deleteMarker(marker));
+        dispatch(addMarker(index, marker));
     },
     setDraggedItem: (index) => dispatch(setDraggedItem(index)),
     changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))

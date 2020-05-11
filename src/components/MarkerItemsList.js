@@ -7,8 +7,8 @@ const MarkerItemsList = ({ markers, onDragOver, onDragEnd, onDragStart, onMarker
             return <MarkerItem
                 key={marker.id}
                 name={marker.name}
-                onDragOver={() => onDragOver(index)}
-                onDragStart={e => onDragStart(e, index)}
+                onDragOver={() => onDragOver(marker.id)}
+                onDragStart={e => onDragStart(e, marker.id)}
                 onDragEnd={onDragEnd}
                 onMarkerDelete={() => onMarkerDelete(marker.id)}
             />

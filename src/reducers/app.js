@@ -22,7 +22,6 @@ import { combineReducers } from 'redux';
 // }
 
 const markers = (state = [], action) => {
-    debugger
     switch (action.type) {
         case CREATE_MARKER: //id name
             return [
@@ -35,21 +34,26 @@ const markers = (state = [], action) => {
             ];
         case DELETE_MARKER: { //index
             let marker = state.find(marker => marker.id === action.index);
+            let index = state.indexOf(marker);
             return [
-                ...state.slice(0, state.indexOf(marker)),
-                ...state.slice(state.indexOf(marker) + 1)
+                ...state.slice(0, index),
+                ...state.slice(index + 1)
             ];
         }
-        case ADD_MARKER: { //index, marker
+        case ADD_MARKER: { //after marker, marker
+            let after = state.find(marker => marker.id === action.index);
+            let marker = state.find(marker => marker.id === action.marker);
+            let afterIndex = state.indexOf(after);
+            let markers = state.filter(marker => marker.id !== action.marker);
             return [
-                ...state.slice(0, action.index),
-                action.marker,
-                ...state.slice(action.index + 1)
+                ...markers.slice(0, afterIndex),
+                marker,
+                ...markers.slice(afterIndex)
             ];
         }
         case CHANGE_POSITION: // index, position
             return state.map((marker) => {
-                if (marker.id === action.marker.id) {
+                if (marker.id === action.id) {
                     return Object.assign({}, marker, {
                         position: action.position
                     })
@@ -61,10 +65,10 @@ const markers = (state = [], action) => {
     }
 };
 
-const draggedItem = (state = {}, action) => {
+const draggedItem = (state = '', action) => {
     switch (action.type) {
         case SET_DRAGGED_ITEM: //index
-            return Object.assign({}, action.draggedItem);
+            return action.draggedItem;
         default:
             return state;
     }
