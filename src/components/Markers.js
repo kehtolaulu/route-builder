@@ -1,28 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-    deleteMarker,
-    changePosition,
-    setDraggedItem,
-    changeCenter,
-    changeOrder
-} from '../actions';
-import MapContainer from './MapContainer';
+import { deleteMarker, setDraggedItem, changeOrder } from '../actions';
 import MarkerItemsList from './MarkerItemsList';
 import MarkerForm from './MarkerForm';
 
 class Markers extends React.Component {
-    onCenterChanged = (_mapProps, map) => {
-        this.props.changeCenter(map.center.lat(), map.center.lng());
-    }
-
-    onMarkerDragEnd = (coord, id) => {
-        let { latLng } = coord;
-        let lat = latLng.lat();
-        let lng = latLng.lng();
-        this.props.changePosition(id, { lat, lng });
-    }
-
     onDragStart = (e, id) => {
         this.props.setDraggedItem(id);
         e.dataTransfer.effectAllowed = "move";
@@ -31,8 +13,8 @@ class Markers extends React.Component {
     };
 
     onDragOver = (id) => {
-        if (id === this.props.state.draggedItem) return;
-        this.props.changeOrder(id, this.props.state.draggedItem);
+        if (id === this.props.draggedItem) { return; }
+        this.props.changeOrder(id, this.props.draggedItem);
     };
 
     onDragEnd = () => {
@@ -45,41 +27,29 @@ class Markers extends React.Component {
 
     render() {
         return (
-            <div className="content">
-                <div className="map-container">
-                    <MapContainer
-                        markers={this.props.state.markers}
-                        onCenterChanged={(mapProps, map) => this.onCenterChanged(mapProps, map)}
-                        center={this.props.state.initialCenter}
-                        onMarkerDragEnd={this.onMarkerDragEnd}
-                        lineCoordinates={this.props.state.markers.map(marker => marker.position)}
-                    />
-                </div>
-                <div className="markers">
-                    <MarkerForm />
-                    <MarkerItemsList
-                        markers={this.props.state.markers}
-                        onDragOver={this.onDragOver}
-                        onDragStart={this.onDragStart}
-                        onDragEnd={this.onDragEnd}
-                        onMarkerDelete={this.deleteMarker}
-                    />
-                </div>
-            </div >
+            <div className="markers">
+                <MarkerForm />
+                <MarkerItemsList
+                    markers={this.props.markers}
+                    onDragOver={this.onDragOver}
+                    onDragStart={this.onDragStart}
+                    onDragEnd={this.onDragEnd}
+                    onMarkerDelete={this.deleteMarker}
+                />
+            </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    state: state
+    markers: state.markers,
+    draggedItem: state.draggedItem
 });
 
 const mapDispatchToProps = dispatch => ({
     deleteMarker: (id) => dispatch(deleteMarker(id)),
-    changePosition: (id, position) => dispatch(changePosition(id, position)),
     changeOrder: (index, marker) => dispatch(changeOrder(index, marker)),
     setDraggedItem: (index) => dispatch(setDraggedItem(index)),
-    changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))
 });
 
 export default connect(

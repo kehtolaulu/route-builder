@@ -1,5 +1,7 @@
 import React from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow, Polyline } from 'google-maps-react';
+import { connect } from 'react-redux';
+import { changePosition, changeCenter } from '../actions';
 
 const mapStyles = {
     position: 'absolute',
@@ -24,12 +26,23 @@ export class MapContainer extends React.Component {
         };
     }
 
-    onMarkerClick = (props, marker, e) => {
+    onMarkerClick = (_props, marker, _e) => {
         this.setState({ activeMarker: marker });
     }
 
     hideName = () => {
         this.setState({ activeMarker: null });
+    }
+
+    onMarkerDragEnd = (coord, id) => {
+        let { latLng } = coord;
+        let lat = latLng.lat();
+        let lng = latLng.lng();
+        this.props.changePosition(id, { lat, lng });
+    }
+
+    onCenterChanged = (_mapProps, map) => {
+        this.props.changeCenter(map.center.lat(), map.center.lng());
     }
 
     render() {
@@ -40,7 +53,7 @@ export class MapContainer extends React.Component {
                 style={mapStyles}
                 containerStyle={containerStyle}
                 initialCenter={this.props.center}
-                onCenterChanged={this.props.onCenterChanged}
+                onCenterChanged={this.onCenterChanged}
                 clickableIcons={true}
             >
                 {(this.props.markers || []).map(marker => {
@@ -50,12 +63,11 @@ export class MapContainer extends React.Component {
                             id={marker.id}
                             key={marker.id}
                             name={marker.name}
-                            onDragend={(t, map, coord) => this.props.onMarkerDragEnd(coord, marker.id)}
+                            onDragend={(t, map, coord) => this.onMarkerDragEnd(coord, marker.id)}
                             draggable={true}
                             position={marker.position}
                             onClick={this.onMarkerClick}
-                        >
-                        </Marker>
+                        />
                     );
                 })}
                 <InfoWindow visible={this.state.activeMarker !== null}
@@ -83,6 +95,17 @@ export class MapContainer extends React.Component {
     }
 }
 
-export default GoogleApiWrapper({
+const mapDispatchToProps = dispatch => ({
+    changePosition: (id, position) => dispatch(changePosition(id, position)),
+    changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))
+});
+
+
+const WrappedContainer = GoogleApiWrapper({
     apiKey: 'AIzaSyDrM-9kfb01hw-cavjmBiAzo4tDZPbUD6M'
 })(MapContainer);
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(WrappedContainer);

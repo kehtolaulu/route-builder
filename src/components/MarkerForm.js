@@ -17,8 +17,8 @@ class MarkerForm extends React.Component {
     createMarker = (e) => {
         e.preventDefault();
         let text = this.state.newMarker.trim();
-        if (!text) return;
-        this.props.createMarker(Date.now(), text, this.props.state.center);
+        if (!text) { return; }
+        this.props.createMarker(Date.now(), text, this.props.center);
         this.setState({ newMarker: '' });
     }
 
@@ -37,7 +37,7 @@ class MarkerForm extends React.Component {
     }
 }
 const mapStateToProps = state => ({
-    state: state
+    center: state.center
 });
 
 const mapDispatchToProps = dispatch => ({

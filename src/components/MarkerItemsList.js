@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import MarkerItem from './MarkerItem';
 
 const MarkerItemsList = ({ markers, onDragOver, onDragEnd, onDragStart, onMarkerDelete }) => (
     <ul className="markers-list">
-        {(markers || []).map((marker, index) => {
+        {(markers || []).map((marker, _index) => {
             return <MarkerItem
                 key={marker.id}
                 name={marker.name}
