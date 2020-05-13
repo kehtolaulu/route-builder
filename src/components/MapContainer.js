@@ -26,13 +26,9 @@ export class MapContainer extends React.Component {
         };
     }
 
-    onMarkerClick = (_props, marker, _e) => {
-        this.setState({ activeMarker: marker });
-    }
+    onMarkerClick = (_props, marker, _e) => this.setState({ activeMarker: marker });
 
-    hideName = () => {
-        this.setState({ activeMarker: null });
-    }
+    hideName = () => this.setState({ activeMarker: null });
 
     onMarkerDragEnd = (coord, id) => {
         let { latLng } = coord;
@@ -41,63 +37,48 @@ export class MapContainer extends React.Component {
         this.props.changePosition(id, { lat, lng });
     }
 
-    onCenterChanged = (_mapProps, map) => {
-        this.props.changeCenter(map.center.lat(), map.center.lng());
-    }
+    onCenterChanged = (_mapProps, map) => this.props.changeCenter(map.center);
 
-    render() {
-        return (
-            <Map
-                google={this.props.google}
-                zoom={11}
-                style={mapStyles}
-                containerStyle={containerStyle}
-                initialCenter={this.props.center}
-                onCenterChanged={this.onCenterChanged}
-                clickableIcons={true}
-            >
-                {(this.props.markers || []).map(marker => {
-                    return (
-                        <Marker
-                            label={marker.name}
-                            id={marker.id}
-                            key={marker.id}
-                            name={marker.name}
-                            onDragend={(t, map, coord) => this.onMarkerDragEnd(coord, marker.id)}
-                            draggable={true}
-                            position={marker.position}
-                            onClick={this.onMarkerClick}
-                        />
-                    );
-                })}
-                <InfoWindow visible={this.state.activeMarker !== null}
-                    onClose={this.hideName}
-                    marker={this.state.activeMarker}>
-                    <div className="infoWindow">{this.state.activeMarker?.name}}</div>
-                </InfoWindow>
-                <Polyline
-                    path={this.props.lineCoordinates}
-                    geodesic={true}
-                    options={{
-                        strokeColor: "#ff2527",
-                        strokeOpacity: 0.75,
-                        strokeWeight: 2,
-                        icons: [
-                            {
-                                offset: "0",
-                                repeat: "20px"
-                            }
-                        ]
-                    }}
+    render = () => (
+        <Map
+            google={this.props.google}
+            zoom={11}
+            style={mapStyles}
+            containerStyle={containerStyle}
+            initialCenter={this.props.center}
+            onCenterChanged={this.onCenterChanged}
+            clickableIcons={true}
+        >
+            {(this.props.markers || []).map(marker => (
+                <Marker
+                    label={marker.name}
+                    id={marker.id}
+                    key={marker.id}
+                    name={marker.name}
+                    onDragend={(_t, _map, coord) => this.onMarkerDragEnd(coord, marker.id)}
+                    draggable={true}
+                    position={marker.position}
+                    onClick={this.onMarkerClick}
                 />
-            </Map>
-        );
-    }
+            ))}
+            <InfoWindow
+                visible={this.state.activeMarker !== null}
+                onClose={this.hideName}
+                marker={this.state.activeMarker}>
+                <div className="infoWindow">{this.state.activeMarker?.name}}</div>
+            </InfoWindow>
+            <Polyline
+                path={this.props.lineCoordinates}
+                geodesic={true}
+                options={{ strokeColor: "#ff2527" }}
+            />
+        </Map>
+    );
 }
 
 const mapDispatchToProps = dispatch => ({
     changePosition: (id, position) => dispatch(changePosition(id, position)),
-    changeCenter: (lat, lng) => dispatch(changeCenter(lat, lng))
+    changeCenter: ({ lat, lng }) => dispatch(changeCenter(lat(), lng()))
 });
 
 

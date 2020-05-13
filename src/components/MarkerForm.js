@@ -7,14 +7,12 @@ class MarkerForm extends React.Component {
         super(props);
         this.state = {
             newMarker: ''
-        }
+        };
     }
 
-    handleChange = (e) => {
-        this.setState({ newMarker: e.target.value });
-    }
+    handleChange = e => this.setState({ newMarker: e.target.value });
 
-    createMarker = (e) => {
+    createMarker = e => {
         e.preventDefault();
         let text = this.state.newMarker.trim();
         if (!text) { return; }
@@ -22,8 +20,8 @@ class MarkerForm extends React.Component {
         this.setState({ newMarker: '' });
     }
 
-    render() {
-        return (<form onSubmit={this.createMarker}>
+    render = () => (
+        <form onSubmit={this.createMarker}>
             <input
                 className="input"
                 type="text"
@@ -33,8 +31,8 @@ class MarkerForm extends React.Component {
                 maxLength={32}
             />
             <input type="submit" className="hide" />
-        </form>);
-    }
+        </form>
+    );
 }
 const mapStateToProps = state => ({
     center: state.center
