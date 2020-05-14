@@ -17,9 +17,9 @@ export const deleteMarker = (index) => ({
     index
 });
 
-export const changeOrder = (index, marker) => ({
+export const changeOrder = (afterId, markerId) => ({
     type: CHANGE_ORDER,
-    index, marker
+    afterId, markerId
 });
 
 export const changePosition = (id, position) => ({

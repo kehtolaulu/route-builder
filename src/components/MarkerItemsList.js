@@ -42,7 +42,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     deleteMarker: (id) => dispatch(deleteMarker(id)),
-    changeOrder: (index, marker) => dispatch(changeOrder(index, marker)),
+    changeOrder: (afterId, markerId) => dispatch(changeOrder(afterId, markerId)),
     setDraggedItem: (index) => dispatch(setDraggedItem(index)),
 });
 
