@@ -12,7 +12,7 @@ const markers = (state = [], action) => {
                 }
             ];
         case DELETE_MARKER: { // index
-            let marker = state.find(marker => marker.id === action.index);
+            let marker = state.find(marker => marker.id === action.id);
             let index = state.indexOf(marker);
             return [
                 ...state.slice(0, index),

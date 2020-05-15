@@ -16,12 +16,12 @@ describe('Create marker action creator', () => {
 
 describe('Delete marker action creator', () => {
     it('should create an action to delete a marker', () => {
-        const index = Date.now();
+        const id = Date.now();
         const expectedAction = {
             type: types.DELETE_MARKER,
-            index
+            id
         };
-        expect(actions.deleteMarker(index)).toEqual(expectedAction);
+        expect(actions.deleteMarker(id)).toEqual(expectedAction);
     });
 });
 

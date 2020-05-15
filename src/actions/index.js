@@ -12,9 +12,9 @@ export const createMarker = (id, name, position) => ({
     id, name, position
 });
 
-export const deleteMarker = (index) => ({
+export const deleteMarker = (id) => ({
     type: DELETE_MARKER,
-    index
+    id
 });
 
 export const changeOrder = (afterId, markerId) => ({
