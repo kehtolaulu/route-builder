@@ -12,7 +12,7 @@ const markers = (state = [], action) => {
                 }
             ];
         case DELETE_MARKER: { // index
-            let marker = state.find(marker => marker.id === action.index);
+            let marker = state.find(marker => marker.id === action.id);
             let index = state.indexOf(marker);
             return [
                 ...state.slice(0, index),
@@ -20,10 +20,10 @@ const markers = (state = [], action) => {
             ];
         }
         case CHANGE_ORDER: { // after marker, marker
-            let after = state.find(marker => marker.id === action.index);
-            let marker = state.find(marker => marker.id === action.marker);
+            let after = state.find(marker => marker.id === action.afterId);
+            let marker = state.find(marker => marker.id === action.markerId);
             let afterIndex = state.indexOf(after);
-            let markers = state.filter(marker => marker.id !== action.marker);
+            let markers = state.filter(marker => marker.id !== action.markerId);
             return [
                 ...markers.slice(0, afterIndex),
                 marker,
