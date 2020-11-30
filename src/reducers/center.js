@@ -13,6 +13,6 @@ const center = (state = {
         default:
             return state;
     }
-}
+};
 
 export default center;

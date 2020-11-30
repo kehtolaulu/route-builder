@@ -37,7 +37,7 @@ const markers = (state = [], action) => {
                         position: action.position
                     })
                 }
-                return marker
+                return marker;
             })
         default:
             return state;

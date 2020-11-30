@@ -9,16 +9,16 @@ class MarkerItemsList extends React.Component {
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/html", e.target.parentNode);
         e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
-    };
+    }
 
     onDragOver = id => {
         if (id === this.props.draggedItem) { return; }
         this.props.changeOrder(id, this.props.draggedItem);
-    };
+    }
 
-    onDragEnd = () => this.props.setDraggedItem(null);
+    onDragEnd = () => this.props.setDraggedItem(null)
 
-    deleteMarker = id => this.props.deleteMarker(id);
+    deleteMarker = id => this.props.deleteMarker(id)
 
     render = () => (
         <ul className="markers-list">
@@ -33,7 +33,7 @@ class MarkerItemsList extends React.Component {
                 />
             ))}
         </ul>
-    );
+    )
 }
 
 const mapStateToProps = state => ({

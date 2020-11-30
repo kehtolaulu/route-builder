@@ -7,6 +7,6 @@ const app = combineReducers({
     markers,
     draggedItem,
     center
-})
+});
 
 export default app;

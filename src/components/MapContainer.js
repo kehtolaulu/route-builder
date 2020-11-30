@@ -15,7 +15,7 @@ const containerStyle = {
     width: '40%',
     height: '98%',
     position: 'absolute'
-}
+};
 
 export class MapContainer extends React.Component {
     constructor(props) {
@@ -26,9 +26,9 @@ export class MapContainer extends React.Component {
         };
     }
 
-    onMarkerClick = (_props, marker, _e) => this.setState({ activeMarker: marker });
+    onMarkerClick = (_props, marker, _e) => this.setState({ activeMarker: marker })
 
-    hideName = () => this.setState({ activeMarker: null });
+    hideName = () => this.setState({ activeMarker: null })
 
     onMarkerDragEnd = (coord, id) => {
         let { latLng } = coord;
@@ -37,7 +37,7 @@ export class MapContainer extends React.Component {
         this.props.changePosition(id, { lat, lng });
     }
 
-    onCenterChanged = (_mapProps, map) => this.props.changeCenter(map.center);
+    onCenterChanged = (_mapProps, map) => this.props.changeCenter(map.center)
 
     render = () => (
         <Map
@@ -65,7 +65,7 @@ export class MapContainer extends React.Component {
                 visible={this.state.activeMarker !== null}
                 onClose={this.hideName}
                 marker={this.state.activeMarker}>
-                <div className="infoWindow">{this.state.activeMarker?.name}}</div>
+                <div className="infoWindow">{this.state.activeMarker?.name}</div>
             </InfoWindow>
             <Polyline
                 path={this.props.lineCoordinates}
@@ -73,7 +73,7 @@ export class MapContainer extends React.Component {
                 options={{ strokeColor: "#ff2527" }}
             />
         </Map>
-    );
+    )
 }
 
 const mapDispatchToProps = dispatch => ({

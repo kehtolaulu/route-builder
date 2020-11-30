@@ -11,7 +11,6 @@ body {
 .markers {
     grid-column-start: 7;
     grid-column-end: 10;
-    margin: 10% 10% 0 10%;
 }
 
 .marker-name {
@@ -34,6 +33,7 @@ body {
 
 .marker-item {
     margin: 1em;
+    cursor: pointer;
 }
 
 .delete {
