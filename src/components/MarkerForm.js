@@ -23,7 +23,7 @@ class MarkerForm extends React.Component {
     render = () => (
         <form onSubmit={this.createMarker}>
             <input
-                className="input"
+                className="marker-input"
                 type="text"
                 placeholder="New marker"
                 onChange={this.handleChange}
@@ -32,7 +32,7 @@ class MarkerForm extends React.Component {
             />
             <input type="submit" className="hide" />
         </form>
-    );
+    )
 }
 
 const mapStateToProps = state => ({

@@ -12,12 +12,7 @@ const markers = (state = [], action) => {
                 }
             ];
         case DELETE_MARKER: { // index
-            let marker = state.find(marker => marker.id === action.id);
-            let index = state.indexOf(marker);
-            return [
-                ...state.slice(0, index),
-                ...state.slice(index + 1)
-            ];
+            return state.filter(marker => marker.id !== action.id);
         }
         case CHANGE_ORDER: { // after marker, marker
             let after = state.find(marker => marker.id === action.afterId);
@@ -33,9 +28,10 @@ const markers = (state = [], action) => {
         case CHANGE_POSITION: // index, position
             return state.map((marker) => {
                 if (marker.id === action.id) {
-                    return Object.assign({}, marker, {
+                    return {
+                        ...marker,
                         position: action.position
-                    })
+                    };
                 }
                 return marker;
             })

@@ -1,8 +1,8 @@
 import { CHANGE_CENTER } from '../constants/actionTypes';
 
 const center = (state = {
-    lat: 37.7749289,
-    lng: -122.4050955710823
+    lat: 55.796391,
+    lng: 49.108891
 }, action) => {
     if (!action) {
         return state;

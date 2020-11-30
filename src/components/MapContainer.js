@@ -64,7 +64,8 @@ export class MapContainer extends React.Component {
             <InfoWindow
                 visible={this.state.activeMarker !== null}
                 onClose={this.hideName}
-                marker={this.state.activeMarker}>
+                marker={this.state.activeMarker}
+            >
                 <div className="infoWindow">{this.state.activeMarker?.name}</div>
             </InfoWindow>
             <Polyline
@@ -76,17 +77,20 @@ export class MapContainer extends React.Component {
     )
 }
 
+const mapStateToProps = state => ({
+    center: state.center
+});
+
 const mapDispatchToProps = dispatch => ({
     changePosition: (id, position) => dispatch(changePosition(id, position)),
     changeCenter: ({ lat, lng }) => dispatch(changeCenter(lat(), lng()))
 });
-
 
 const WrappedContainer = GoogleApiWrapper({
     apiKey: 'AIzaSyDrM-9kfb01hw-cavjmBiAzo4tDZPbUD6M'
 })(MapContainer);
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(WrappedContainer);
